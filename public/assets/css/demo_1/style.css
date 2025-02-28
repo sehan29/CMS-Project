@@ -13417,7 +13417,7 @@ address p {
           display: flex;
           align-items: center;
           padding: 0;
-          height: 32px;
+          height: 50px;
           white-space: nowrap;
           color: #000; }
           .sidebar .sidebar-body .nav .nav-item .nav-link .link-icon {
@@ -13428,7 +13428,7 @@ address p {
             color: inherit; }
           .sidebar .sidebar-body .nav .nav-item .nav-link .link-title {
             margin-left: 30px;
-            font-size: 14px;
+            font-size: 18px;
             -webkit-transition: all .2s ease-in-out;
             transition: all .2s ease-in-out; }
           .sidebar .sidebar-body .nav .nav-item .nav-link .link-arrow {

@@ -62,7 +62,7 @@
                     <div class="dropdown-body">
                         <a href="javascript:;" class="dropdown-item">
                             <div class="figure">
-                                <img src="https://via.placeholder.com/30x30" alt="userr">
+                                <img src="https://via.placeholder.com/30x30" alt="user">
                             </div>
                             <div class="content">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -110,12 +110,12 @@
             <li class="nav-item dropdown nav-profile">
                 <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="https://via.placeholder.com/30x30" alt="userr">
+                    <img src="https://media.istockphoto.com/id/1332100919/vector/man-icon-black-icon-person-symbol.jpg?s=612x612&w=0&k=20&c=AVVJkvxQQCuBhawHrUhDRTCeNQ3Jgt0K1tXjJsFy1eg=" alt="user">
                 </a>
                 <div class="dropdown-menu" aria-labelledby="profileDropdown">
                     <div class="dropdown-header d-flex flex-column align-items-center">
                         <div class="figure mb-3">
-                            <img src="https://via.placeholder.com/80x80" alt="">
+                            <img src="https://media.istockphoto.com/id/1332100919/vector/man-icon-black-icon-person-symbol.jpg?s=612x612&w=0&k=20&c=AVVJkvxQQCuBhawHrUhDRTCeNQ3Jgt0K1tXjJsFy1eg=" alt="">
                         </div>
                         <div class="info text-center">
                             <p class="name font-weight-bold mb-0">Amiah Burton</p>
