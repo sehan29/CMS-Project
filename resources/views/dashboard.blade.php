@@ -1,17 +1,31 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+    <div class="main-wrapper">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
+        <!-- Start Sidebar Component -->
+        @include('components.sidebar')
+        <!-- End Sidebar Component -->
+
+        <div class="page-wrapper">
+
+            <!-- Start Top Navbar -->
+            @include('components.top-nav')
+            <!-- End Top Navbar -->
+
+            <div class="page-content">
+
+                <!-- Start Dashboard Components -->
+                @include('components.dashboard-com')
+
+                <!-- End Dashboard Components -->
+
+                <!-- Start card components -->
+                @include('components.card-com')
+                <!-- End card components -->
+
             </div>
+
+            @include('components.d-footer')
+
         </div>
     </div>
 </x-app-layout>
