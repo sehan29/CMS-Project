@@ -12832,7 +12832,7 @@ address p {
     .main-wrapper .page-wrapper .page-content {
       flex-grow: 1;
       padding: 25px;
-      margin-top: 60px; }
+      margin-top: 20px; }
       @media (max-width: 767px) {
         .main-wrapper .page-wrapper .page-content {
           padding: 25px 15px; } }
