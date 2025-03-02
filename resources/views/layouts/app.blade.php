@@ -12,7 +12,6 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <link rel="stylesheet" href="../assets/vendors/fullcalendar/main.min.css">
 
 
     <link rel="stylesheet" href="../assets/vendors/core/core.css">
@@ -23,9 +22,12 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="../assets/fonts/feather-font/css/iconfont.css">
     <link rel="stylesheet" href="../assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="../assets/css/demo_1/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <!-- Styles -->
     <link rel="stylesheet" href="../styles/Login_Page_Styles.css">
@@ -78,6 +80,24 @@
 
     <script src="../assets/js/dropzone.js"></script>
     <script src="../assets/vendors/dropzone/dropzone.min.js"></script>
+
+{{--     <script src="../assets/js/cal/main.js"></script>
+    <script src="../assets/js/cal/bootstrap.min.js"></script>
+    <script src="../assets/js/cal/jquery.min.js"></script>
+    <script src="../assets/js/cal/popper.js"></script> --}}
+
+
+
+    <script>
+        document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
+        star.addEventListener('click', function() {
+            this.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+    });
+    </script>
 
 
 </body>

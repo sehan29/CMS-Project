@@ -1,8 +1,8 @@
 <section class="mb-5">
     <header>
-        <h2 class="fs-4 fw-semibold text-dark">
+        <h4 class="fs-4 fw-semibold text-dark">
             {{ __('Profile Information') }}
-        </h2>
+        </h4>
         <p class="text-muted small">
             {{ __("Update your account's profile information and email address.") }}
         </p>
