@@ -86,6 +86,24 @@ class ComplaintController extends Controller
         return view('components.show', compact('complaint'));
     }
 
+    public function storeRating(Request $request, $id)
+{
+    $request->validate([
+        'rating' => 'required|integer|min:1|max:5',
+    ]);
+
+    $complaint = Complaint::findOrFail($id);
+    
+    // Ensure only the complaint owner can rate
+    if ($complaint->user_id !== auth()->id()) {
+        return back()->with('error', 'Unauthorized to rate this complaint.');
+    }
+
+    $complaint->update(['rating' => $request->rating]);
+
+    return back()->with('success', 'Rating submitted successfully.');
+}
+
     /**
      * Show the form for editing the specified resource.
      */

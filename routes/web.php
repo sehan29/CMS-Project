@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/complaint/upload', [ComplaintController::class, 'upload'])->name('complaint.upload');
 
     Route::get('/complaints/{id}', [ComplaintController::class, 'show'])->name('complaints.show');
+    Route::post('/complaints/{id}/rate', [ComplaintController::class, 'storeRating'])->name('complaints.rate');
+
 
 
 

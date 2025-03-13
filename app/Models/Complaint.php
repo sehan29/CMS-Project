@@ -11,7 +11,7 @@ class Complaint extends Model
 
     use HasFactory;
 
-    protected $fillable = ['user_id', 'category', 'details','attachments'];
+    protected $fillable = ['user_id', 'category', 'details','rating'];
 
     // Define the relationship to the attachments
     public function Documents()
