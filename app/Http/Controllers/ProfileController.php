@@ -7,7 +7,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use App\Models\User;
+
 
 class ProfileController extends Controller
 {
@@ -47,14 +50,44 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
-
         Auth::logout();
-
         $user->delete();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return Redirect::to('/');
+    }
+
+    public function upload_img(Request $request)
+    {
+        // Ensure the user is logged in
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to upload an image.');
+        }
+
+        $request->validate([
+            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        // Set default image
+        $imageName = $user->image ?? 'default-profile.png';
+
+        if ($request->hasFile('profile_image')) {
+            // Delete old image if it's not the default
+            if ($user->image && $user->image !== 'default-profile.png') {
+                Storage::delete('public/profile_images/' . $user->image);
+            }
+
+            // Upload new image
+            $imageName = time() . '.' . $request->file('profile_image')->getClientOriginalExtension();
+            $request->file('profile_image')->storeAs('public/profile_images', $imageName,'public');
+        }
+
+        // Update user's image in the database
+        $user->image = $imageName;
+        $user->save();
+
+        return back()->with('success', 'Profile image uploaded successfully.')->with('image', $imageName);
     }
 }

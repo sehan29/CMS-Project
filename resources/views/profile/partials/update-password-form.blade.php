@@ -3,9 +3,9 @@
         <h4 class="fs-4 fw-semibold text-dark">
             {{ __('Update Password') }}
         </h4>
-        <p class="text-muted small">
+        {{-- <p class="text-muted small">
             {{ __('Ensure your account is using a long, random password to stay secure.') }}
-        </p>
+        </p> --}}
     </header>
 
     <form method="post" action="{{ route('password.update') }}" class="mt-4">
@@ -37,7 +37,8 @@
         </div>
 
         <div class="d-flex align-items-center gap-3">
-            <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>
+                {{ __('Change Password') }}</button>
 
             @if (session('status') === 'password-updated')
                 <p class="text-muted small" id="passwordUpdated">{{ __('Saved.') }}</p>

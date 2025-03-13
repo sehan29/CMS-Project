@@ -29,6 +29,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
+
+
+
     <!-- Styles -->
     <link rel="stylesheet" href="../styles/Login_Page_Styles.css">
 
@@ -60,6 +63,10 @@
         </div>
     </div>
 
+  
+
+{{--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ --}}
     <script src="../assets/vendors/core/core.js"></script>
     <!-- plugin js for this page -->
     <script src="../assets/vendors/chartjs/Chart.min.js"></script>
