@@ -30,7 +30,10 @@
 
 
 
-
+ 
+	<!-- plugin css for this page -->
+	<link rel="stylesheet" href="../assets/vendors/fullcalendar/main.min.css">
+ 
 
     <!-- Styles -->
     <link rel="stylesheet" href="../styles/Login_Page_Styles.css">
@@ -75,6 +78,8 @@
     <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="../assets/vendors/apexcharts/apexcharts.min.js"></script>
     <script src="../assets/vendors/progressbar.js/progressbar.min.js"></script>
+    <script src="../assets/vendors/fullcalendar/main.min.js"></script>
+
     <!-- end plugin js for this page -->
     <!-- inject:js -->
     <script src="../assets/vendors/feather-icons/feather.min.js"></script>
@@ -83,6 +88,8 @@
     <!-- custom js for this page -->
     <script src="../assets/js/dashboard.js"></script>
     <script src="../assets/js/datepicker.js"></script>
+    <script src="../assets/js/fullcalendar.js"></script>
+
     <!-- end custom js for this page -->
 
     <script src="../assets/js/dropzone.js"></script>
@@ -94,6 +101,10 @@
     <script src="../assets/js/cal/popper.js"></script> --}}
 
 
+{{--  --}}
+	<!-- endinject -->
+	<!-- plugin js for this page -->
+    <script src="../assets/vendors/moment/moment.min.js"></script>
 
     <script>
         document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {

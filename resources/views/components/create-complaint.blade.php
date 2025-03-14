@@ -30,8 +30,10 @@
                             <div class="dropzone" id="myDropzone"></div>
                         </div>
 
-                        <input class="btn btn-primary" type="submit" value="Submit">
-                        <input class="btn btn-danger" type="reset" value="Reset">
+
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Submit</button>
+                        <button class="btn btn-danger" type="reset"><i class="fa fa-undo" aria-hidden="true"></i>&nbsp;Reset</button>
+
                     </fieldset>
                 </form>
             </div>
