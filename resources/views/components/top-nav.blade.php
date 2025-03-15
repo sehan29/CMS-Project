@@ -115,33 +115,22 @@
                 <div class="dropdown-menu" aria-labelledby="profileDropdown">
                     <div class="dropdown-header d-flex flex-column align-items-center">
                         <div class="figure mb-3">
-                            <img src="https://media.istockphoto.com/id/1332100919/vector/man-icon-black-icon-person-symbol.jpg?s=612x612&w=0&k=20&c=AVVJkvxQQCuBhawHrUhDRTCeNQ3Jgt0K1tXjJsFy1eg=" alt="">
+                            <img src="{{ Auth::user() && Auth::user()->image ? url('storage/public/profile_images/' . Auth::user()->image) : asset('images/default-profile.png') }}" alt="">
                         </div>
                         <div class="info text-center">
-                            <p class="name font-weight-bold mb-0">Amiah Burton</p>
-                            <p class="email text-muted mb-3">amiahburton@gmail.com</p>
+                            <p class="name font-weight-bold mb-0">{{ Auth()->user()->name }}</p>
+                            <p class="email text-muted mb-3">{{ Auth()->user()->email }}</p>
                         </div>
                     </div>
                     <div class="dropdown-body">
                         <ul class="profile-nav p-0 pt-3">
                             <li class="nav-item">
-                                <a href="pages/general/profile.html" class="nav-link">
+                                <a href="{{ route('profile.edit') }} " class="nav-link">
                                     <i data-feather="user"></i>
                                     <span>Profile</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="javascript:;" class="nav-link">
-                                    <i data-feather="edit"></i>
-                                    <span>Edit Profile</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="javascript:;" class="nav-link">
-                                    <i data-feather="repeat"></i>
-                                    <span>Switch User</span>
-                                </a>
-                            </li>
+                             
                             <li class="nav-item">
                                 <a href="javascript:;" class="nav-link">
                                     <i data-feather="log-out"></i>

@@ -93,6 +93,21 @@
     color: #ffc107;
 }
 
+.image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+.image-preview img {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    background: #fff;
+}
+
 footer{
 
     padding-left: 20px;
@@ -112,3 +127,4 @@ footer{
         width: 100%;
     }
 }
+

@@ -37,13 +37,12 @@
             <li class="nav-item">
                 <a href="{{ route('history.index') }}" class="nav-link">
                     <i class="link-icon" data-feather="pie-chart"></i>
-                    <span class="link-title">Complaint History</span>
+                    <span class="link-title">My Complaint</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" data-toggle="collapse" href="#errorPages" role="button"
-                    aria-expanded="false" aria-controls="errorPages">
+                <a href="{{ route('logout') }}"  class="nav-link">
                     <i class="link-icon" data-feather="log-out"></i>
                     <span class="link-title">Log out</span>
                 </a>
