@@ -13,8 +13,8 @@
                                 <th>ID</th>
                                 <th>Ref No</th>
                                 <th>Category</th>
-{{--                                 <th>Details</th>
- --}}                                <th>Date</th>
+                                <th>Date</th>
+                                <th>Over Due Days</th>
                                 <th>Rating</th>
                                 <th>Action</th>
                             </tr>
@@ -25,8 +25,8 @@
                                     <td>{{ $complaint->id }}</td>
                                     <td>REF/123/456/23455</td>
                                     <td>{{ $complaint->category }}</td>
-{{--                                     <td>{{ $complaint->details }}</td>
- --}}                                    <td>{{ $complaint->created_at->format('Y-m-d H:i') }}</td>
+                                    <td>{{ $complaint->created_at->format('Y-m-d H:i') }}</td>
+                                    <td>Over Due Dates Include Here</td>
                                     <td>@if ($complaint->rating)
                                         <span class="text-warning">⭐ {{ $complaint->rating }}/5</span>
                                     @else
