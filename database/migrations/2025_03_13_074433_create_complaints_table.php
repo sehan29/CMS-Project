@@ -16,6 +16,11 @@ return new class extends Migration
             $table->integer('user_id');
             $table->string('category');
             $table->text('details');
+            $table->string('division');
+            $table->string('priority');
+            $table->integer('rating');
+            $table->integer('status');
+            $table->string('notes');
             $table->timestamps();
         });
 
