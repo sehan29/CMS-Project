@@ -1,48 +1,6 @@
 $(function() {
   'use strict';
 
-  // Bar chart
-  if($('#chartjsBar').length) {
-    new Chart($("#chartjsBar"), {
-      type: 'bar',
-      data: {
-        labels: [ "China", "America", "India", "Germany", "Oman"],
-        datasets: [
-          {
-            label: "Population",
-            backgroundColor: ["#b1cfec","#7ee5e5","#66d1d1","#f77eb9","#4d8af0"],
-            data: [2478,5267,734,2084,1433]
-          }
-        ]
-      },
-      options: {
-        legend: { display: false },
-      }
-    });
-  }
-
-  if($('#chartjsLine').length) {
-    new Chart($('#chartjsLine'), {
-      type: 'line',
-      data: {
-        labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
-        datasets: [{ 
-            data: [86,114,106,106,107,111,133,221,783,2478],
-            label: "Africa",
-            borderColor: "#7ee5e5",
-            backgroundColor: "rgba(0,0,0,0)",
-            fill: false
-          }, { 
-            data: [282,350,411,502,635,809,947,1402,3700,5267],
-            label: "Asia",
-            borderColor: "#f77eb9",
-            backgroundColor: "rgba(0,0,0,0)",
-            fill: false
-          }
-        ]
-      }
-    });
-  }
 
   if($('#chartjsDoughnut').length) {
     new Chart($('#chartjsDoughnut'), {
@@ -52,7 +10,7 @@ $(function() {
         datasets: [
           {
             label: "Population (millions)",
-            backgroundColor: ["#7ee5e5","#f77eb9","#4d8af0"],
+            backgroundColor: ["#4e73df","#1cc88a","#36b9cc"],
             data: [2478,4267,1334]
           }
         ]
@@ -67,9 +25,15 @@ $(function() {
         labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
         datasets: [{ 
             data: [86,114,106,106,107,111,133,221,783,2478],
-            label: "Africa",
+            label: "Africa12",
             borderColor: "#7ee5e5",
             backgroundColor: "#c2fdfd",
+            fill: true
+          }, { 
+            data: [282,350,411,502,635,809,947,1402,3700,5267],
+            label: "Asia",
+            borderColor: "#f77eb9",
+            backgroundColor: "#ffbedd",
             fill: true
           }, { 
             data: [282,350,411,502,635,809,947,1402,3700,5267],
@@ -83,19 +47,7 @@ $(function() {
     });
   }
 
-  if($('#chartjsPie').length) {
-    new Chart($('#chartjsPie'), {
-      type: 'pie',
-      data: {
-        labels: ["Africa", "Asia", "Europe"],
-        datasets: [{
-          label: "Population (millions)",
-          backgroundColor: ["#7ee5e5","#f77eb9","#4d8af0"],
-          data: [2478,4267,1334]
-        }]
-      }
-    });
-  }
+
 
   if($('#chartjsBubble').length) {
     new Chart($('#chartjsBubble'), {
@@ -210,16 +162,20 @@ $(function() {
     new Chart($('#chartjsGroupedBar'), {
       type: 'bar',
       data: {
-        labels: ["1900", "1950", "1999", "2050"],
+        labels: ["1900", "1950", "1999", "2050","2222"],
         datasets: [
           {
-            label: "Africa",
-            backgroundColor: "#f77eb9",
-            data: [133,221,783,2478]
+            label: "Open Complaint",
+            backgroundColor: "#4e73df",
+            data: [133,221,783,2478,1233]
           }, {
-            label: "Europe",
-            backgroundColor: "#7ee5e5",
-            data: [408,547,675,734]
+            label: "Close Complaint",
+            backgroundColor: "#1cc88a",
+            data: [408,547,675,734,123]
+          }, {
+            label: "In Prograss Complaint",
+            backgroundColor: "#36b9cc",
+            data: [708,747,475,134,454]
           }
         ]
       }
