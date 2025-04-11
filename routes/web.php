@@ -18,6 +18,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified','rolemanager:dashboard'])->name('dashboard');
 
+
+
 Route::middleware(['auth', 'verified', 'rolemanager:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
