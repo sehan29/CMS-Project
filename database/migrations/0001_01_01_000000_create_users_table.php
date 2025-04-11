@@ -16,9 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->tinyInteger('role')->default(1);
-/*             $table->string('image')->nullable();            ;
- */     
-            $table->string('nic_passport')->default('12345'); // Or set a specific default value
+            $table->string('nic_passport')->default('12345'); 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
