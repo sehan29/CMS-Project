@@ -1,237 +1,3 @@
-{{-- @extends('layouts.admin')
-
-@section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <h6 class="m-0 font-weight-bold text-primary">Complaint #COMP-{{ $complaint->id }}</h6>
-                    <a href="{{ route('admin.complaints.index') }}" class="btn btn-sm btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Back
-                    </a>
-                </div>
-                <div class="card-body">
-                    <!-- Complaint Details -->
-                    <div class="row mb-4">
-                        <div class="col-md-4">
-                            <p class="text-muted mb-1">Complainant</p>
-                            <h5>{{ $complaint->user->name }}</h5>
-                        </div>
-                        <div class="col-md-4">
-                            <p class="text-muted mb-1">Status</p>
-                            @if($complaint->isPending())
-                                <span class="badge bg-warning">Pending</span>
-                            @elseif($complaint->isAssigned())
-                                <span class="badge bg-info">Assigned</span>
-                            @else
-                                <span class="badge bg-success">Resolved</span>
-                            @endif
-                        </div>
-                        <div class="col-md-4">
-                            <p class="text-muted mb-1">Priority</p>
-                            @if($complaint->priority === 'high')
-                                <span class="badge bg-danger">High</span>
-                            @elseif($complaint->priority === 'medium')
-                                <span class="badge bg-warning">Medium</span>
-                            @else
-                                <span class="badge bg-success">Low</span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <!-- Complaint Content -->
-                    <div class="mb-4">
-                        <h5 class="mb-3">Complaint Details</h5>
-                        <div class="card">
-                            <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">{{ $complaint->category }}</h6>
-                                <p class="card-text">{{ $complaint->description }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Admin Notes -->
-                    @if($complaint->notes)
-                    <div class="mb-4">
-                        <h5 class="mb-3">Admin Notes</h5>
-                        <div class="card bg-light">
-                            <div class="card-body">
-                                <p>{{ $complaint->notes }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4">
-            <!-- Actions Card -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Actions</h6>
-                </div>
-                <div class="card-body">
-                    @if($complaint->isPending())
-                        <button class="btn btn-primary btn-block mb-3 assign-btn" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#assignModal">
-                            <i class="fas fa-paper-plane"></i> Assign to Division
-                        </button>
-                    @elseif($complaint->isAssigned())
-                        <button class="btn btn-success btn-block mb-3 resolve-btn" 
-                            data-action="{{ route('admin.complaints.resolve', $complaint) }}">
-                            <i class="fas fa-check-circle"></i> Mark as Resolved
-                        </button>
-                        <button class="btn btn-info btn-block mb-3 assign-btn" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#assignModal">
-                            <i class="fas fa-sync-alt"></i> Reassign Division
-                        </button>
-                    @endif
-                    
-                    <button class="btn btn-warning btn-block mb-3" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#noteModal">
-                        <i class="fas fa-edit"></i> Add Note
-                    </button>
-                </div>
-            </div>
-
-            <!-- Division Info -->
-            @if($complaint->division)
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Assigned Division</h6>
-                </div>
-                <div class="card-body">
-                    <h5>{{ $complaint->division }}</h5>
-                    <p class="text-muted">Assigned on {{ $complaint->updated_at->format('M d, Y') }}</p>
-                </div>
-            </div>
-            @endif
-
-            <!-- Attachments -->
-            @if($complaint->documents->count() > 0)
-            <div class="card shadow">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Attachments</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        @foreach($complaint->documents as $document)
-                        <div class="col-6 mb-3">
-                            <a href="{{ asset('storage/'.$document->file_path) }}" target="_blank">
-                                <img src="{{ asset('storage/'.$document->file_path) }}" 
-                                     class="img-thumbnail" 
-                                     alt="Attachment">
-                            </a>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-            @endif
-        </div>
-    </div>
-</div>
-
-<!-- Assign Modal -->
-<div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="assignModalLabel">Assign Complaint</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('admin.complaints.assign', $complaint) }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="division">Division</label>
-                        <select class="form-control" id="division" name="division" required>
-                            <option value="">Select Division</option>
-                            <option value="Tourist Police" {{ $complaint->division == 'Tourist Police' ? 'selected' : '' }}>Tourist Police</option>
-                            <option value="Immigration" {{ $complaint->division == 'Immigration' ? 'selected' : '' }}>Immigration</option>
-                            <option value="Customs" {{ $complaint->division == 'Customs' ? 'selected' : '' }}>Customs</option>
-                            <option value="Other" {{ $complaint->division == 'Other' ? 'selected' : '' }}>Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="priority">Priority</label>
-                        <select class="form-control" id="priority" name="priority" required>
-                            <option value="low" {{ $complaint->priority == 'low' ? 'selected' : '' }}>Low</option>
-                            <option value="medium" {{ $complaint->priority == 'medium' ? 'selected' : '' }}>Medium</option>
-                            <option value="high" {{ $complaint->priority == 'high' ? 'selected' : '' }}>High</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="notes">Notes (Optional)</label>
-                        <textarea class="form-control" id="notes" name="notes" rows="3">{{ $complaint->notes }}</textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Assign</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Note Modal -->
-<div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-warning text-white">
-                <h5 class="modal-title" id="noteModalLabel">Add Note</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('admin.complaints.note', $complaint) }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group">
-                        <textarea class="form-control" name="note" rows="5" required>{{ $complaint->notes }}</textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-warning">Save Note</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-@endsection
-
-@section('scripts')
-<script>
-    $(document).ready(function() {
-        // Resolve button handler
-        $('.resolve-btn').click(function(e) {
-            e.preventDefault();
-            if(confirm('Are you sure you want to mark this complaint as resolved?')) {
-                $.ajax({
-                    url: $(this).data('action'),
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function() {
-                        location.reload();
-                    }
-                });
-            }
-        });
-    });
-</script>
-@endsection --}}
-
 
 @extends('layouts.admin')
 
@@ -239,8 +5,8 @@
 <div class="container-fluid px-4">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Complaint Details #COMP-{{ $complaint->id }}</h1>
-        <a href="{{ route('admin.complaints.index') }}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
-            <i class="fas fa-arrow-left fa-sm"></i> Back to Complaints
+        <a href="{{ route('admin.complaints.index') }}" class="d-none d-sm-inline-block btn btn-secondary shadow-sm">
+            &nbsp;Back to Complaints
         </a>
     </div>
 
@@ -248,10 +14,10 @@
         <!-- Main Content -->
         <div class="col-xl-8 col-lg-7">
             <!-- Complaint Card -->
-            <div class="card shadow mb-4">
+            <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
-                    <h6 class="m-0 font-weight-bold text-white">Complaint Overview</h6>
-                    <div class="dropdown no-arrow">
+                    <h5 class="m-0 font-weight-bold text-white">Complaint Overview</h5>
+                    {{-- <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-white"></i>
                         </a>
@@ -264,7 +30,7 @@
                                 <i class="fas fa-file-export fa-sm mr-2"></i>Export
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -299,7 +65,7 @@
 
                     <div class="row mb-4">
                         <div class="col-md-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-primary h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -324,7 +90,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card border-left-success h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -349,7 +115,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card border-left-info h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
@@ -372,7 +138,7 @@
                         <h5 class="font-weight-bold text-gray-800 mb-3">
                             <i class="fas fa-file-alt mr-2"></i>Complaint Description
                         </h5>
-                        <div class="card shadow">
+                        <div class="card">
                             <div class="card-body">
                                 <div class="text-muted mb-2">
                                     <i class="far fa-clock mr-1"></i> 
@@ -390,7 +156,7 @@
                         <h5 class="font-weight-bold text-gray-800 mb-3">
                             <i class="fas fa-sticky-note mr-2"></i>Administrator Notes
                         </h5>
-                        <div class="card border-left-warning shadow">
+                        <div class="card border-left-warning">
                             <div class="card-body">
                                 <div class="text-muted mb-2">
                                     <i class="far fa-clock mr-1"></i> 
@@ -409,7 +175,7 @@
         <!-- Sidebar -->
         <div class="col-xl-4 col-lg-5">
             <!-- Actions Card -->
-            <div class="card shadow mb-4">
+            <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
                     <h6 class="m-0 font-weight-bold text-white">Complaint Actions</h6>
                 </div>
@@ -454,10 +220,10 @@
 
             <!-- Division Information -->
             @if($complaint->division)
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-info">
+            <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
                     <h6 class="m-0 font-weight-bold text-white">Assigned Division</h6>
-                    <div class="dropdown no-arrow">
+                   {{--  <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-white"></i>
                         </a>
@@ -466,7 +232,7 @@
                                 <i class="fas fa-history fa-sm mr-2"></i>View History
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="card-body">
                     <div class="text-center">
@@ -492,8 +258,8 @@
 
             <!-- Attachments -->
             @if($complaint->documents->count() > 0)
-            <div class="card shadow">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-secondary">
+            <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary">
                     <h6 class="m-0 font-weight-bold text-white">Attachments</h6>
                     <span class="badge badge-light">{{ $complaint->documents->count() }}</span>
                 </div>
@@ -730,6 +496,10 @@
         font-size: 0.85em;
         font-weight: 600;
         padding: 0.35em 0.65em;
+    }
+    .icon-circle::before {
+
+        display: none;
     }
 </style>
 @endsection

@@ -60,23 +60,28 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false"
-                        aria-controls="emails">
+                    <a class="nav-link" role="button" aria-expanded="true" aria-controls="emails">
                         <i class="link-icon" data-feather="users"></i>
                         <span class="link-title">Manage Users</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
                     </a>
-                    <div class="collapse" id="emails">
+                    <div class="collapse show" id="emails">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
-                                <a href="{{ route('sub_officer') }}" class="nav-link">Subject Officer</a>
+                                <a href="{{ route('sub_officer') }}"
+                                   class="nav-link {{ request()->routeIs('sub_officer') ? 'active' : '' }}">
+                                    Subject Officer
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('customer.index') }}" class="nav-link">Customers</a>
+                                <a href="{{ route('customer.index') }}"
+                                   class="nav-link {{ request()->routeIs('customer.index') ? 'active' : '' }}">
+                                    Customers
+                                </a>
                             </li>
                         </ul>
                     </div>
                 </li>
+                
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -85,51 +90,43 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item {{ request()->is('admin/complaint_report') ? 'active' : '' }}">
+                    <a href="{{ route('complaint_report.index') }}"
+                       class="nav-link {{ request()->is('admin/complaint_report') ? 'active' : '' }}">
                         <i class="link-icon" data-feather="user"></i>
                         <span class="link-title">Complaint Reports</span>
                     </a>
                 </li>
-
-                @php
-                    $manageComplaintRoutes = [
-                        'complaints.index',
-                        'over_due.index',
-                        'complaints.not_assign',
-                    ];
-                @endphp
-
                 <li class="nav-item">
-                    <a class="nav-link {{ in_array(Route::currentRouteName(), $manageComplaintRoutes) ? '' : 'collapsed' }}"
-                        data-toggle="collapse" href="#advancedUI" role="button"
-                        aria-expanded="{{ in_array(Route::currentRouteName(), $manageComplaintRoutes) ? 'true' : 'false' }}"
-                        aria-controls="advancedUI">
+                    <a class="nav-link" role="button" aria-expanded="true" aria-controls="advancedUI">
                         <i class="link-icon" data-feather="anchor"></i>
                         <span class="link-title">Manage Complaint</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
                     </a>
-                    <div class="collapse {{ in_array(Route::currentRouteName(), $manageComplaintRoutes) ? 'show' : '' }}"
-                        id="advancedUI">
+                    <div class="collapse show" id="advancedUI">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
                                 <a href="{{ route('complaints.index') }}"
-                                    class="nav-link {{ request()->routeIs('complaints.index') ? 'active' : '' }}">All</a>
+                                    class="nav-link {{ request()->routeIs('complaints.index') ? 'active' : '' }}">
+                                    All
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('over_due.index') }}"
-                                    class="nav-link {{ request()->routeIs('over_due.index') ? 'active' : '' }}">Over
-                                    Due</a>
+                                    class="nav-link {{ request()->routeIs('over_due.index') ? 'active' : '' }}">
+                                    Over Due
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('complaints.not_assign') }}"
-                                    class="nav-link {{ request()->routeIs('complaints.not_assign') ? 'active' : '' }}">Not
-                                    Assigned</a>
+                                    class="nav-link {{ request()->routeIs('complaints.not_assign') ? 'active' : '' }}">
+                                    Not Assigned
+                                </a>
                             </li>
-                            <!-- Add more with similar logic -->
                         </ul>
                     </div>
                 </li>
+                
+            
             @endif
 
             <!-- Logout -->

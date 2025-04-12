@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\AdminComplainController;
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\ComplaintReportController;
 use App\Http\Controllers\CreateController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubjectOfficerController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +35,9 @@ Route::middleware(['auth', 'verified', 'rolemanager:admin'])->prefix('admin')->g
     Route::get('/manage_customers', [CustomerController::class, 'index'])->name('customer.index');
     Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
     Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
+    Route::get('complaint_report', [ComplaintReportController::class, 'index'])->name('complaint_report.index');
+    Route::get('details_complaint_report',[ComplaintReportController::class,'report'])->name('details_complaint_report.report');
+
 });
 
 Route::get('/complaints', [AdminComplainController::class, 'index'])->name('complaints.index');
@@ -80,6 +85,9 @@ Route::prefix('admin')->name('admin.')->group(function() {
         ->name('complaints.not_assign');
 });
 Route::get('compl/{complaint}', [AdminComplainController::class, 'show']);
+
+Route::get('/print-pdf', [PDFController::class, 'print'])->name('pdf.print');
+
 
 
 require __DIR__.'/auth.php';
