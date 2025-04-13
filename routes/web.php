@@ -3,11 +3,13 @@
 use App\Http\Controllers\AdminComplainController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ComplaintReportController;
+use App\Http\Controllers\ComplaintSearchController;
 use App\Http\Controllers\CreateController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SubjectOfficerController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -23,10 +25,7 @@ Route::get('/dashboard', function () {
 
 
 Route::middleware(['auth', 'verified', 'rolemanager:admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin');
-
+    Route::get('/dashboard', function () {return view('admin.dashboard');})->name('admin');
     Route::get('/manage_sub_officer', [SubjectOfficerController::class, 'index'])->name('sub_officer');
     Route::post('/subject-officers/search', [SubjectOfficerController::class, 'searchUser'])->name('admin.subject-officers.search');
     Route::post('/subject-officers', [SubjectOfficerController::class, 'store'])->name('admin.subject-officers.store');
@@ -37,6 +36,19 @@ Route::middleware(['auth', 'verified', 'rolemanager:admin'])->prefix('admin')->g
     Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
     Route::get('complaint_report', [ComplaintReportController::class, 'index'])->name('complaint_report.index');
     Route::get('details_complaint_report',[ComplaintReportController::class,'report'])->name('details_complaint_report.report');
+    Route::get('search',[SearchController::class,'search_user'])->name('search.search_user');
+    Route::get('users/search', [SearchController::class, 'search'])->name('admin.users.search'); 
+    Route::get('/users/{user}', [SearchController::class, 'show'])->name('admin.users.show');
+    Route::get('/users/{user}/edit', [SearchController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/users/{user}', [SearchController::class, 'update'])->name('admin.users.update');
+    Route::delete('/users/{user}', [SearchController::class, 'destroy'])->name('admin.users.destroy');
+
+    Route::get('complaint_search',[ComplaintSearchController::class,'index'])->name('admin.complaint.index');
+    Route::get('/complaints/search', [ComplaintSearchController::class, 'search'])->name('admin.complaints.search');
+    Route::get('/complaints/{complaint}', [ComplaintSearchController::class, 'show'])->name('admin.complaints.show');
+    Route::get('/complaints/{complaint}/edit', [ComplaintSearchController::class, 'edit'])->name('admin.complaints.edit');
+    Route::put('/complaints/{complaint}', [ComplaintSearchController::class, 'update'])->name('admin.complaints.update');
+
 
 });
 

@@ -125,6 +125,20 @@
                         </ul>
                     </div>
                 </li>
+
+                <li class="nav-item {{ request()->is('admin/search') ? 'active' : '' }}">
+                    <a href="{{ route('search.search_user') }}" class="nav-link {{ request()->routeIs('search.search_user') ? 'active' : '' }}">
+                        <i class="link-icon" data-feather="search"></i>
+                        <span class="link-title">Search User</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('admin.complaint.index') }}" class="nav-link">
+                        <i class="link-icon" data-feather="search"></i>
+                        <span class="link-title">Search Complaint</span>
+                    </a>
+                </li>
                 
             
             @endif

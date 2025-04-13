@@ -11,16 +11,16 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../assets/vendors/core/core.css">
-    <link rel="stylesheet" href="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="../assets/fonts/feather-font/css/iconfont.css">
-    <link rel="stylesheet" href="../assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/core/core.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">    
+    <link rel="stylesheet" href="{{ asset('assets/fonts/feather-font/css/iconfont.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../assets/css/demo_1/style.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/demo_1/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="stylesheet" href="../assets/vendors/fullcalendar/main.min.css">
-    <link rel="stylesheet" href="../styles/Login_Page_Styles.css">
-    <link rel="stylesheet" href="../assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/fullcalendar/main.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/Login_Page_Styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
@@ -62,9 +62,9 @@
     </div>
 
  
-    <script src="../assets/vendors/core/core.js"></script>
+    <script src="{{ asset('assets/vendors/core/core.js') }}"></script>
     <!-- plugin js for this page -->
-    <script src="../assets/vendors/chartjs/Chart.min.js"></script>
+    <script src="{{ asset('assets/vendors/chartjs/Chart.min.js') }}"></script>
     <script src="../assets/vendors/jquery.flot/jquery.flot.js"></script>
     <script src="../assets/vendors/jquery.flot/jquery.flot.resize.js"></script>
     <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
