@@ -133,7 +133,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item {{ request()->is('admin/complaint_search') ? 'active' : '' }}">
                     <a href="{{ route('admin.complaint.index') }}" class="nav-link">
                         <i class="link-icon" data-feather="search"></i>
                         <span class="link-title">Search Complaint</span>
@@ -145,12 +145,11 @@
 
             <!-- Logout -->
             <li class="nav-item">
-                <a href="#" class="nav-link"
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <a href="#" class="nav-link" onclick="confirmLogout(event)">
                     <i class="link-icon" data-feather="log-out"></i>
                     <span class="link-title">Log out</span>
                 </a>
-            
+                
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
@@ -158,3 +157,24 @@
         </ul>
     </div>
 </nav>
+
+<script>
+$(document).ready(function() {
+    $('.nav-link[onclick]').click(function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure you want to log out?',
+/*             text: "Are you sure you want to log out?",
+ */            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, log out!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('logout-form').submit();
+            }
+        });
+    });
+});
+</script>
