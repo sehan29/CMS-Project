@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Over Due Complaints</h6>
+            <h5 class="m-0 font-weight-bold text-primary">Reconsideration Complaints</h5>
             <div class="dropdown">
                 <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-filter"></i> Filter
@@ -47,6 +47,8 @@
                                     <span class="badge bg-info text-white">Assigned</span>
                                 @elseif($complaint->isOverdue())
                                     <span class="badge bg-danger text-white">Over Due</span>
+                                @elseif($complaint->isReconsideration())
+                                    <span class="badge bg-danger text-white">Reconsideration</span>
 
                                 @else
                                     <span class="badge bg-success">Resolved</span>

@@ -6,6 +6,8 @@ use App\Http\Controllers\ComplaintReportController;
 use App\Http\Controllers\ComplaintSearchController;
 use App\Http\Controllers\CreateController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
@@ -14,18 +16,23 @@ use App\Http\Controllers\SubjectOfficerController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
+Route::resource('events', EventController::class)->only(['index', 'store', 'update', 'destroy']);
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
+/* Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified','rolemanager:dashboard'])->name('dashboard');
+})->middleware(['auth', 'verified','rolemanager:dashboard'])->name('dashboard'); */
 
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified', 'rolemanager:dashboard'])
+    ->name('dashboard');
 
 
 Route::middleware(['auth', 'verified', 'rolemanager:admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {return view('admin.dashboard');})->name('admin');
+    Route::get('/dashboard', [AdminComplainController::class,'dashboard'])->name('admin');
     Route::get('/manage_sub_officer', [SubjectOfficerController::class, 'index'])->name('sub_officer');
     Route::post('/subject-officers/search', [SubjectOfficerController::class, 'searchUser'])->name('admin.subject-officers.search');
     Route::post('/subject-officers', [SubjectOfficerController::class, 'store'])->name('admin.subject-officers.store');
@@ -35,20 +42,18 @@ Route::middleware(['auth', 'verified', 'rolemanager:admin'])->prefix('admin')->g
     Route::put('/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
     Route::delete('/customers/{id}', [CustomerController::class, 'destroy'])->name('customers.destroy');
     Route::get('complaint_report', [ComplaintReportController::class, 'index'])->name('complaint_report.index');
-    Route::get('details_complaint_report',[ComplaintReportController::class,'report'])->name('details_complaint_report.report');
+    Route::get('details_complaint_report/{month}',[ComplaintReportController::class,'report'])->name('details_complaint_report.report');
     Route::get('search',[SearchController::class,'search_user'])->name('search.search_user');
     Route::get('users/search', [SearchController::class, 'search'])->name('admin.users.search'); 
     Route::get('/users/{user}', [SearchController::class, 'show'])->name('admin.users.show');
     Route::get('/users/{user}/edit', [SearchController::class, 'edit'])->name('admin.users.edit');
     Route::put('/users/{user}', [SearchController::class, 'update'])->name('admin.users.update');
     Route::delete('/users/{user}', [SearchController::class, 'destroy'])->name('admin.users.destroy');
-
     Route::get('complaint_search',[ComplaintSearchController::class,'index'])->name('admin.complaint.index');
     Route::get('/complaints/search', [ComplaintSearchController::class, 'search'])->name('admin.complaints.search');
     Route::get('/complaints/{complaint}', [ComplaintSearchController::class, 'show'])->name('admin.complaints.show');
     Route::get('/complaints/{complaint}/edit', [ComplaintSearchController::class, 'edit'])->name('admin.complaints.edit');
     Route::put('/complaints/{complaint}', [ComplaintSearchController::class, 'update'])->name('admin.complaints.update');
-
 
 });
 
@@ -63,6 +68,8 @@ Route::get('/sub-officer/dashboard', function () {
     return view('sub_officer.sub-officer');
 })->middleware(['auth', 'verified','rolemanager:sub'])->name('sub');
 
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -76,17 +83,15 @@ Route::middleware('auth')->group(function () {
     /* Make Complaint Routes */
     Route::post('/complaint/store', [ComplaintController::class, 'store'])->name('complaint.store');
     Route::post('/complaint/upload', [ComplaintController::class, 'upload'])->name('complaint.upload');
-
     Route::get('/complaints/{id}', [ComplaintController::class, 'show'])->name('complaints.show');
+    Route::post('/complaints/{id}/rate', [ComplaintController::class, 'storeRating'])->name('complaints.rate');
+    Route::post('/complaints/{id}/reconsider', [ComplaintController::class, 'requestReconsideration'])->name('complaints.reconsider');
     Route::post('/complaints/{id}/rate', [ComplaintController::class, 'storeRating'])->name('complaints.rate');
 
 });
 
 Route::prefix('admin')->name('admin.')->group(function() {
-    // Complaints routes
     Route::get('/complaints', [AdminComplainController::class, 'index'])->name('complaints.index');
-    
-    // Complaint actions
     Route::post('/complaints/{complaint}/assign', [AdminComplainController::class, 'assignDivision'])
         ->name('complaints.assign');
     Route::post('/complaints/{complaint}/note', [AdminComplainController::class, 'addNote'])
@@ -95,10 +100,15 @@ Route::prefix('admin')->name('admin.')->group(function() {
         ->name('complaints.resolve');
     Route::get('/not-assigned',[AdminComplainController::class,'not_assign'])
         ->name('complaints.not_assign');
-});
-Route::get('compl/{complaint}', [AdminComplainController::class, 'show']);
+    Route::get('/reconsideration',[AdminComplainController::class,'reconsideration'])
+        ->name('complaints.reconsideration_complaint');
+    Route::get('/print-pdf', [PDFController::class, 'print'])->name('pdf.print');
+    Route::get('print-monthly-report/{month}', [PDFController::class, 'printMonthlyReport'])->name('print.monthly_report');
 
-Route::get('/print-pdf', [PDFController::class, 'print'])->name('pdf.print');
+});
+Route::get('compl/{complaint}', [AdminComplainController::class, 'show'])->name('compl.show');
+Route::resource('events', EventController::class)->only(['index', 'store', 'update', 'destroy']);
+
 
 
 

@@ -85,12 +85,17 @@ class ComplaintController extends Controller
      */
     public function show(string $id)
     {
-        $complaint = Complaint::with('documents')->findOrFail($id);
-
+        $complaint = Complaint::with('documents', 'user')->findOrFail($id);
+        
+        // Ensure only the complaint owner or admin can view
+/*         if (auth()->id() !== $complaint->user_id && !auth()->user()->isAdmin()) {
+            abort(403, 'Unauthorized action.');
+        } */
+    
         return view('components.show', compact('complaint'));
     }
 
-    public function storeRating(Request $request, $id)
+    /*     public function storeRating(Request $request, $id)
     {
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
@@ -106,7 +111,71 @@ class ComplaintController extends Controller
         $complaint->update(['rating' => $request->rating]);
 
         return back()->with('success', 'Rating submitted successfully.');
+    } */
+
+
+    // Add these methods to your ComplaintController
+
+    public function requestReconsideration(Request $request, $id)
+    {
+        $request->validate([
+            'feedback' => 'required|string|min:5|max:1000',
+        ]);
+    
+        $complaint = Complaint::findOrFail($id);
+        
+        // Check if user can request reconsideration
+        if (!$complaint->can_reconsider) {
+            return back()->with('error', 'You cannot request reconsideration for this complaint.');
+        }
+    
+        // Create a new reconsideration note
+        $complaint->reconsiderationNotes()->create([
+            'notes' => $request->feedback,
+            'request_number' => $complaint->reconsideration_count + 1
+        ]);
+    
+        $complaint->update([
+            'reconsideration_count' => $complaint->reconsideration_count + 1,
+            'feedback' => $request->feedback,
+            'status' => Complaint::STATUS_RECONSIDERATION,
+        ]);
+    
+        return redirect()->back()->with('success', 'Reconsideration request submitted successfully. We will review your complaint again.');
     }
+
+    public function storeRating(Request $request, $id)
+    {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'feedback' => 'nullable|string|max:1000',
+        ]);
+    
+        $complaint = Complaint::findOrFail($id);
+    
+        // Ensure only the complaint owner can rate
+        if ($complaint->user_id !== auth()->id()) {
+            return back()->with('error', 'Unauthorized to rate this complaint.');
+        }
+    
+        // Only allow rating if complaint is resolved
+        if (!$complaint->isResolved()) {
+            return back()->with('error', 'You can only rate resolved complaints.');
+        }
+    
+        // Check if already rated
+        if ($complaint->rating) {
+            return back()->with('error', 'You have already rated this complaint.');
+        }
+    
+        $complaint->update([
+            'rating' => $request->rating,
+            'feedback' => $request->feedback
+        ]);
+    
+        return redirect()->back()->with('success', 'Thank you for your rating and feedback!');
+    }
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -150,7 +219,7 @@ class ComplaintController extends Controller
         ]);
 
         // Log activity
- /*        activity()
+        /*        activity()
             ->performedOn($complaint)
             ->causedBy(auth()->user())
             ->log('Assigned complaint to ' . $request->division . ' division'); */
@@ -166,7 +235,7 @@ class ComplaintController extends Controller
         ]);
 
         // Log activity
-/*         activity()
+        /*         activity()
             ->performedOn($complaint)
             ->causedBy(auth()->user())
             ->log('Marked complaint as resolved');
@@ -185,7 +254,7 @@ class ComplaintController extends Controller
         ]);
 
         // Log activity
-/*         activity()
+        /*         activity()
             ->performedOn($complaint)
             ->causedBy(auth()->user())
             ->log('Added note to complaint'); */

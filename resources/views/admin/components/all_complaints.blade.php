@@ -45,7 +45,8 @@
                                     <span class="badge bg-info text-white">Assigned</span>
                                 @elseif($complaint->isOverdue())
                                     <span class="badge bg-danger text-white">Over Due</span>
-
+                                @elseif($complaint->isReconsideration())
+                                    <span class="badge bg-danger text-white">Re Consideration</span>
                                 @else
                                     <span class="badge bg-success">Resolved</span>
                                 @endif

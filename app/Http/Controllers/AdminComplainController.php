@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Complaint;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,7 @@ class AdminComplainController extends Controller
     // List all complaints
     public function index()
     {
-        $complaints = Complaint::with(['user', 'documents'])->latest()->get();
+        $complaints = Complaint::with(['user', 'documents','reconsiderationNotes'])->latest()->get();
         return view('admin.components.all_complaints', compact('complaints'));
     }
 
@@ -30,6 +31,16 @@ class AdminComplainController extends Controller
             ->get();
 
         return view('admin.components.not_assign', compact('complaints'));
+    }
+
+    public function reconsideration()
+    {
+        $complaints = Complaint::with(['user', 'documents'])
+            ->where('status', Complaint::STATUS_RECONSIDERATION)
+            ->latest()
+            ->get();
+
+        return view('admin.components.reconsideration', compact('complaints'));
     }
 
 
@@ -55,8 +66,8 @@ class AdminComplainController extends Controller
     // Show single complaint details
     public function show(Complaint $complaint)
     {
-        return view('admin.components.complaint_details', compact('complaint'));
-    }
+        $complaint->load(['user', 'documents', 'reconsiderationNotes']);
+        return view('admin.components.complaint_details', compact('complaint'));    }
 
     // Assign division to complaint
     public function assignDivision(Request $request, Complaint $complaint)
@@ -66,14 +77,22 @@ class AdminComplainController extends Controller
             'priority' => 'required|in:low,medium,high',
             'notes' => 'nullable|string'
         ]);
-
-        $complaint->update([
+    
+        $updateData = [
             'division' => $validated['division'],
             'priority' => $validated['priority'],
-            'status' => Complaint::STATUS_ASSIGNED,
             'notes' => $validated['notes'] ?? $complaint->notes
-        ]);
-
+        ];
+    
+        // If this was a reconsideration, change status back to assigned
+        if ($complaint->isReconsideration()) {
+            $updateData['status'] = Complaint::STATUS_ASSIGNED;
+        } elseif ($complaint->isPending()) {
+            $updateData['status'] = Complaint::STATUS_ASSIGNED;
+        }
+    
+        $complaint->update($updateData);
+    
         return back()->with('success', 'Complaint assigned successfully!');
     }
 
@@ -93,5 +112,53 @@ class AdminComplainController extends Controller
     {
         $complaint->update(['status' => Complaint::STATUS_RESOLVED]);
         return back()->with('success', 'Complaint marked as resolved!');
+    }
+
+    public function dashboard()
+    {
+
+        $dates = [];
+        $pendingData = [];
+        $closedData = [];
+        $inProgressData = [];
+        $currentYear = now()->year;
+
+        for ($i = 4; $i >= 0; $i--) {
+            $date = now()->subDays($i)->format('Y-m-d');
+            $dates[] = now()->subDays($i)->format('M j');
+            
+            $pendingData[] = Complaint::where('status', Complaint::STATUS_PENDING)
+                ->whereDate('created_at', $date)
+                ->count();
+                
+            $closedData[] = Complaint::where('status', Complaint::STATUS_RESOLVED)
+                ->whereDate('created_at', $date)
+                ->count();
+                
+            $inProgressData[] = Complaint::where('status', Complaint::STATUS_ASSIGNED)
+                ->whereDate('created_at', $date)
+                ->count();
+        }
+
+        $divisionStats = Complaint::select('division')->selectRaw('count(*) as total')
+        ->whereYear('created_at', $currentYear)
+        ->groupBy('division')
+        ->orderBy('total', 'desc')
+        ->get();
+
+        return view('admin.dashboard', [
+            'totalCustomers' => User::where('role', 1)->count(),
+            'subOfficers' => User::where('role', 3)->count(),
+            'notActionedComplaints' => Complaint::where('status', Complaint::STATUS_PENDING)->count(),
+            'overdueComplaints' => Complaint::where('status', Complaint::STATUS_OVER_DUE)->count(),
+            'inProcessComplaints' => Complaint::where('status', Complaint::STATUS_ASSIGNED)->count(),
+            'closedComplaints' => Complaint::where('status', Complaint::STATUS_RESOLVED)->count(),
+            'notAssignedComplaints' => Complaint::whereNull('user_id')->count(),
+            'totalComplaints' => Complaint::count(),
+            'recentComplaints' => Complaint::with('user')->latest()->take(5)->get(),
+            'chartData' => ['dates' => $dates,'pending' => $pendingData,'closed' => $closedData,'inProgress' => $inProgressData],
+            'divisionStats' => $divisionStats,
+            'currentYear' => $currentYear,
+        ]);
     }
 }

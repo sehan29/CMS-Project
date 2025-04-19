@@ -15,7 +15,7 @@
                                 <th>Category</th>
                                 <th>Date</th>
                                 <th>Over Due Days</th>
-                                <th>Rating</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -27,13 +27,19 @@
                                     <td>{{ $complaint->category }}</td>
                                     <td>{{ $complaint->created_at->format('Y-m-d H:i') }}</td>
                                     <td>Over Due Dates Include Here</td>
-                                    <td>@if ($complaint->rating)
-                                        <span class="text-warning">⭐ {{ $complaint->rating }}/5</span>
+                                    <td>@if($complaint->isPending())
+                                        <span class="badge bg-warning text-white">Pending</span>
+                                    @elseif($complaint->isAssigned())
+                                        <span class="badge bg-info text-white">Assigned</span>
+                                    @elseif($complaint->isOverdue())
+                                        <span class="badge bg-danger text-white">Over Due</span>
+                                    @elseif($complaint->isReconsideration())
+                                        <span class="badge bg-danger text-white">Re Consideration</span>
                                     @else
-                                        Not Rated
+                                        <span class="badge bg-success">Resolved</span>
                                     @endif</td>
 
-                                    <td><a href="{{ route('complaints.show', $complaint->id) }}" class="btn btn-info btn-sm text-white text-justify"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View</a></td>
+                                    <td><a href="{{ route('complaints.show', $complaint->id) }}" class="btn btn-primary btn-sm text-white text-justify"><i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View</a></td>
                                 </tr>
                             @endforeach
                         </tbody>

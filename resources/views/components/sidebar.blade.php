@@ -47,7 +47,7 @@
             @if (Auth::user()->role == 2)
                 <li class="nav-item">
                     <a href="{{ route('admin') }}" class="nav-link">
-                        <i class="link-icon" data-feather="settings"></i>
+                        <i class="link-icon" data-feather="monitor"></i>
                         <span class="link-title">Admin Dashboard</span>
                     </a>
                 </li>
@@ -82,7 +82,6 @@
                     </div>
                 </li>
                 
-
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="link-icon" data-feather="user"></i>
@@ -122,6 +121,13 @@
                                     Not Assigned
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href=" {{ route('admin.complaints.reconsideration_complaint') }}"
+                                    class="nav-link {{ request()->routeIs('admin.complaints.reconsideration_complaint') ? 'active' : '' }}">
+                                    Requested Reconsideration                                
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -139,9 +145,85 @@
                         <span class="link-title">Search Complaint</span>
                     </a>
                 </li>
-                
-            
             @endif
+
+            @if (Auth::user()->role == 3)
+
+            <li class="nav-item">
+                <a href="{{ route('sub') }} " class="nav-link">
+                    <i class="link-icon" data-feather="monitor"></i>
+                    <span class="link-title">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('profile.edit') }}" class="nav-link">
+                    <i class="link-icon" data-feather="user"></i>
+                    <span class="link-title">Profile</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" role="button" aria-expanded="true" aria-controls="advancedUI">
+                    <i class="link-icon" data-feather="anchor"></i>
+                    <span class="link-title">Manage Complaint</span>
+                </a>
+                <div class="collapse show" id="advancedUI">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            <a href="{{-- {{ route('complaints.index') }} --}}"
+                                class="nav-link {{-- {{ request()->routeIs('complaints.index') ? 'active' : '' }} --}}">
+                                All
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{-- {{ route('over_due.index') }} --}}"
+                                class="nav-link {{-- {{ request()->routeIs('over_due.index') ? 'active' : '' }} --}}">
+                                Over Due
+                            </a>
+                        </li>
+                    
+                        <li class="nav-item">
+                            <a href=" {{-- {{ route('admin.complaints.reconsideration_complaint') }} --}}"
+                                class="nav-link {{-- {{ request()->routeIs('admin.complaints.reconsideration_complaint') ? 'active' : '' }} --}}">
+                                Requested Reconsideration                                
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{-- {{ route('over_due.index') }} --}}"
+                                class="nav-link {{-- {{ request()->routeIs('over_due.index') ? 'active' : '' }} --}}">
+                                Closed Complaints
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="link-icon" data-feather="user"></i>
+                    <span class="link-title">User Reports</span>
+                </a>
+            </li>
+
+            <li class="nav-item {{ request()->is('admin/complaint_report') ? 'active' : '' }}">
+                <a href="{{ route('complaint_report.index') }}"
+                   class="nav-link {{ request()->is('admin/complaint_report') ? 'active' : '' }}">
+                    <i class="link-icon" data-feather="user"></i>
+                    <span class="link-title">Complaint Reports</span>
+                </a>
+            </li>
+
+            <li class="nav-item {{-- {{ request()->is('admin/complaint_search') ? 'active' : '' }} --}}">
+                <a href="{{-- {{ route('admin.complaint.index') }} --}}" class="nav-link">
+                    <i class="link-icon" data-feather="search"></i>
+                    <span class="link-title">Search Complaint</span>
+                </a>
+            </li>
+
+            @endif
+
+
 
             <!-- Logout -->
             <li class="nav-item">
