@@ -12,7 +12,9 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SubjectofficerComplaintReport;
 use App\Http\Controllers\SubjectOfficerController;
+use App\Http\Controllers\SubjectOfficerDivisionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
@@ -66,7 +68,20 @@ Route::get('/not-assigned',[AdminComplainController::class,'not_assign'])->name(
 
 Route::get('/sub-officer/dashboard', function () {
     return view('sub_officer.sub-officer');
+
 })->middleware(['auth', 'verified','rolemanager:sub'])->name('sub');
+
+Route::middleware(['auth', 'verified', 'rolemanager:sub'])->prefix('sub')->group(function () {
+
+    Route::get('all-complaint',[SubjectOfficerDivisionController::class,'all_complaint'])->name('subject_officer.all_complaints');
+    Route::get('over-due-complaint',[SubjectOfficerDivisionController::class,'over_complaint'])->name('subject_officer.over_complaints');
+    Route::get('reconsideration-complaint',[SubjectOfficerDivisionController::class,'reconsideration_complaint'])->name('subject_officer.reconsideration_complaint');
+    Route::get('closed-complaint',[SubjectOfficerDivisionController::class,'closed_complaint'])->name('subject_officer.closed');
+    Route::get('sub_complaint_report',[SubjectofficerComplaintReport::class, 'sub_complaints'])->name('subject_officer.sub_complaint_report');
+
+
+
+});
 
 
 

@@ -175,6 +175,27 @@
                             </div>
                         @endif
 
+
+                        @if($complaint->resolved_by)
+                        <div class="mb-4">
+                            <h5 class="font-weight-bold text-gray-800 mb-3">
+                                <i class="fas fa-sticky-note mr-2"></i>Complaint was Resolved By
+                            </h5>
+                            <div class="card border-left-warning">
+                                <div class="card-body">
+                                    <div class="text-muted mb-2">
+                                        <i class="far fa-clock mr-1"></i>
+                                        Last updated on {{ $complaint->updated_at->format('M d, Y \a\t h:i A') }}
+                                    </div>
+                                    <hr>
+                                    <p class="mb-0 fw-bold">{{ $complaint->resolved_by }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+
+
                         <!-- Reconsideration Notes -->
                         @if ($complaint->reconsiderationNotes->count() > 0)
                             <div class="mb-4">

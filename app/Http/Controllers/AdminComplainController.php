@@ -6,6 +6,7 @@ use App\Models\Complaint;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminComplainController extends Controller
 {
@@ -19,13 +20,11 @@ class AdminComplainController extends Controller
 
     public function not_assign()
     {
-        // Update complaints older than 2 days to status = 4 (Over Due)
-        Complaint::where('status', Complaint::STATUS_PENDING)
+         Complaint::where('status', Complaint::STATUS_PENDING)
             ->where('created_at', '<', Carbon::now()->subDays(2))
-            ->update(['status' => Complaint::STATUS_OVER_DUE]); // STATUS_OVERDUE
+            ->update(['status' => Complaint::STATUS_OVER_DUE]); 
 
-        // Now get the current pending complaints (still within 2 days)
-        $complaints = Complaint::with(['user', 'documents'])
+         $complaints = Complaint::with(['user', 'documents'])
             ->where('status', Complaint::STATUS_PENDING)
             ->latest()
             ->get();
@@ -110,7 +109,7 @@ class AdminComplainController extends Controller
     // Mark complaint as resolved
     public function resolveComplaint(Complaint $complaint)
     {
-        $complaint->update(['status' => Complaint::STATUS_RESOLVED]);
+        $complaint->update(['status' => Complaint::STATUS_RESOLVED,'resolved_by' => Auth::user()->name]);
         return back()->with('success', 'Complaint marked as resolved!');
     }
 

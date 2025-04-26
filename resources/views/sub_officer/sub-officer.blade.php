@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
-        <div>
+        <div d-flex justify-content-between align-items-center>
             <h4 class="mb-3 mb-md-0">Welcome to Dashboard</h4>
+            <h4>{{ Auth::user()->section }} Division</h4>
         </div>
     </div>
 

@@ -82,6 +82,15 @@
                     <input type="text" id="passport" name="passport" class="form-control"
                         value="12345678" required disabled>
                 </div>
+
+                @if(Auth::user()->section != null)
+
+                <div class="mb-3">
+                    <label for="passport" class="form-label">{{ __('Assigned Division') }}</label>
+                    <input type="text" id="passport" name="passport" class="form-control"
+                        value="{{ Auth::user()->section }}" required disabled>
+                </div>                
+                @endif
             </form>
         </div>
     </div>

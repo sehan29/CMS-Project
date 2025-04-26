@@ -11,7 +11,7 @@ class Complaint extends Model
 
     use HasFactory;
     
-    protected $fillable = ['user_id', 'category', 'details', 'rating', 'division', 'priority', 'status', 'notes','feedback','reconsideration_count','can_reconsider','updated_at'];
+    protected $fillable = ['user_id', 'category', 'details', 'rating', 'division', 'priority', 'status', 'notes','feedback','reconsideration_count','can_reconsider','updated_at','resolved_by'];
 
     // Status constants
     const STATUS_PENDING = 0;

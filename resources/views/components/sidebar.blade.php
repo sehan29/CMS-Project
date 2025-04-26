@@ -171,26 +171,26 @@
                 <div class="collapse show" id="advancedUI">
                     <ul class="nav sub-menu">
                         <li class="nav-item">
-                            <a href="{{-- {{ route('complaints.index') }} --}}"
+                            <a href=" {{ route('subject_officer.all_complaints') }} "
                                 class="nav-link {{-- {{ request()->routeIs('complaints.index') ? 'active' : '' }} --}}">
                                 All
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{-- {{ route('over_due.index') }} --}}"
+                            <a href="{{ route('subject_officer.over_complaints') }}"
                                 class="nav-link {{-- {{ request()->routeIs('over_due.index') ? 'active' : '' }} --}}">
                                 Over Due
                             </a>
                         </li>
                     
                         <li class="nav-item">
-                            <a href=" {{-- {{ route('admin.complaints.reconsideration_complaint') }} --}}"
+                            <a href=" {{ route('subject_officer.reconsideration_complaint') }}"
                                 class="nav-link {{-- {{ request()->routeIs('admin.complaints.reconsideration_complaint') ? 'active' : '' }} --}}">
                                 Requested Reconsideration                                
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{-- {{ route('over_due.index') }} --}}"
+                            <a href="{{ route('subject_officer.closed') }}"
                                 class="nav-link {{-- {{ request()->routeIs('over_due.index') ? 'active' : '' }} --}}">
                                 Closed Complaints
                             </a>
@@ -198,7 +198,7 @@
                     </ul>
                 </div>
             </li>
-            
+
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="link-icon" data-feather="user"></i>
@@ -206,9 +206,9 @@
                 </a>
             </li>
 
-            <li class="nav-item {{ request()->is('admin/complaint_report') ? 'active' : '' }}">
-                <a href="{{ route('complaint_report.index') }}"
-                   class="nav-link {{ request()->is('admin/complaint_report') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('sub/sub_complaint_report') ? 'active' : '' }}">
+                <a href="{{ route('subject_officer.sub_complaint_report') }}"
+                   class="nav-link {{ request()->is('sub/sub_complaint_report') ? 'active' : '' }}">
                     <i class="link-icon" data-feather="user"></i>
                     <span class="link-title">Complaint Reports</span>
                 </a>
