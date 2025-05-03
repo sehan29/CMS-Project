@@ -5,18 +5,8 @@
 <div class="container-fluid">
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">All Complaints</h6>
-            <div class="dropdown">
-                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-filter"></i> Filter
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="filterDropdown">
-                    <li><a class="dropdown-item" href="?status=all">All Complaints</a></li>
-                    <li><a class="dropdown-item" href="?status=pending">Pending</a></li>
-                    <li><a class="dropdown-item" href="?status=assigned">Assigned</a></li>
-                    <li><a class="dropdown-item" href="?status=resolved">Resolved</a></li>
-                </ul>
-            </div>
+            <h6 class="m-0 font-weight-bold text-primary">Subject Offiver All Complaints</h6>
+            
         </div>
         <div class="card-body">
             <div class="table-responsive">

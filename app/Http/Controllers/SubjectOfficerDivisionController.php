@@ -27,10 +27,10 @@ class SubjectOfficerDivisionController extends Controller
             ->latest()
             ->get();
     
-        return view('admin.components.all_complaints', compact('complaints'));
-
-/*         return view('sub_officer.components.all_complaints');
- */ }
+/*         return view('admin.components.all_complaints', compact('complaints'));
+ */
+        return view('sub_officer.components.all_complaints',compact('complaints'));
+    }
 
     public function over_complaint()
     {

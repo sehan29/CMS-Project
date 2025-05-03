@@ -48,7 +48,7 @@
                                     <span class="badge bg-danger text-white">Over Due</span>
 
                                 @else
-                                    <span class="badge bg-success">Resolved</span>
+                                    <span class="badge bg-success text-white">Resolved</span>
                                 @endif
                             </td>
                             <td>{{ $complaint->division ?? 'Not Assigned' }}</td>

@@ -77,6 +77,7 @@ Route::middleware(['auth', 'verified', 'rolemanager:sub'])->prefix('sub')->group
     Route::get('over-due-complaint',[SubjectOfficerDivisionController::class,'over_complaint'])->name('subject_officer.over_complaints');
     Route::get('reconsideration-complaint',[SubjectOfficerDivisionController::class,'reconsideration_complaint'])->name('subject_officer.reconsideration_complaint');
     Route::get('closed-complaint',[SubjectOfficerDivisionController::class,'closed_complaint'])->name('subject_officer.closed');
+    Route::get('complain_sub/{complaint}', [SubjectOfficerDivisionController::class, 'show'])->name('complain_sub.show');
     Route::get('sub_complaint_report',[SubjectofficerComplaintReport::class, 'sub_complaints'])->name('subject_officer.sub_complaint_report');
 
 

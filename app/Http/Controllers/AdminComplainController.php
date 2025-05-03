@@ -66,7 +66,8 @@ class AdminComplainController extends Controller
     public function show(Complaint $complaint)
     {
         $complaint->load(['user', 'documents', 'reconsiderationNotes']);
-        return view('admin.components.complaint_details', compact('complaint'));    }
+        return view('admin.components.complaint_details', compact('complaint'));    
+    }
 
     // Assign division to complaint
     public function assignDivision(Request $request, Complaint $complaint)

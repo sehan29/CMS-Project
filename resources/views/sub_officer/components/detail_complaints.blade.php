@@ -4,9 +4,9 @@
     <div class="container-fluid px-4">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Complaint Details #COMP-{{ $complaint->id }}</h1>
-            {{-- <a href="{{ route('admin.complaints.index') }}" class="d-none d-sm-inline-block btn btn-secondary shadow-sm">
+            <a href="{{ route('admin.complaints.index') }}" class="d-none d-sm-inline-block btn btn-secondary shadow-sm">
                 &nbsp;Back to Complaints
-            </a> --}}
+            </a>
         </div>
 
         <div class="row">
@@ -274,7 +274,6 @@
                                 <span class="text">Assign to Division</span>
                             </button>
                         @elseif($complaint->isAssigned())
-                        
                             <button class="btn btn-success btn-icon-split btn-block mb-3 resolve-btn"
                                 data-action="{{ route('admin.complaints.resolve', $complaint) }}">
                                 <span class="icon text-white-50">
@@ -282,18 +281,13 @@
                                 </span>
                                 <span class="text">Mark as Resolved</span>
                             </button>
-                            
-                            @if(auth()->user()->role != 3)
-
-                                <button class="btn btn-info btn-icon-split btn-block mb-3 assign-btn" data-toggle="modal" data-target="#assignModal">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </span>
-                                    <span class="text">Reassign Division</span>
-                                </button>
-                            @endif
-
-
+                            <button class="btn btn-info btn-icon-split btn-block mb-3 assign-btn" data-toggle="modal"
+                                data-target="#assignModal">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-sync-alt"></i>
+                                </span>
+                                <span class="text">Reassign Division</span>
+                            </button>
                         @elseif($complaint->isReconsideration())
                             <button class="btn btn-success btn-icon-split btn-block mb-3 resolve-btn"
                                 data-action="{{ route('admin.complaints.resolve', $complaint) }}">
@@ -302,18 +296,13 @@
                                 </span>
                                 <span class="text">Mark as Resolved</span>
                             </button>
-
-                            @if(auth()->user()->role != 3)
-
-                                <button class="btn btn-info btn-icon-split btn-block mb-3 assign-btn" data-toggle="modal"
-                                    data-target="#assignModal">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-sync-alt"></i>
-                                    </span>
-                                    <span class="text">Reassign Division</span>
-                                </button>
-                            @endif
-
+                            <button class="btn btn-info btn-icon-split btn-block mb-3 assign-btn" data-toggle="modal"
+                                data-target="#assignModal">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-sync-alt"></i>
+                                </span>
+                                <span class="text">Reassign Division</span>
+                            </button>
                         @endif
                         <button class="btn btn-warning btn-icon-split btn-block mb-3" data-toggle="modal"
                             data-target="#noteModal">
@@ -666,7 +655,7 @@
     <!-- Custom scripts -->
     <script>
         $(document).ready(function() {
-            // Initialize select pickerba
+            // Initialize select picker
             $('.selectpicker').selectpicker();
 
             // Resolve button handler
